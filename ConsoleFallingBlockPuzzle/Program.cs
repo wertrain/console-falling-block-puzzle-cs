@@ -10,6 +10,8 @@ namespace ConsoleFallingBlockPuzzle
     {
         static void Main(string[] args)
         {
+            var field = new Field(10, 20);
+            field.Draw();
         }
     }
 }

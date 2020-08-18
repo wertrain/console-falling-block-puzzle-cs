@@ -46,19 +46,56 @@ namespace ConsoleFallingBlockPuzzle
         /// <summary>
         /// 
         /// </summary>
-        public void Draw()
+        public void Draw(bool withWall, int leftPadding)
         {
             var defaultForegroundColor = Console.ForegroundColor;
 
             Console.ForegroundColor = ConsoleColor.Red;
             for (int y = 0; y < Height; ++y)
             {
+                for (int p = 0; p < leftPadding; ++p)
+                {
+                    System.Console.Write("　");
+                }
+
+                if (withWall)
+                {
+                    Console.ForegroundColor = ConsoleColor.Gray;
+                    System.Console.Write("■");
+                    Console.ForegroundColor = ConsoleColor.Red;
+                }
+
                 for (int x = 0; x < Width; ++x)
                 {
                     System.Console.Write("■", Blocks[y][x]);
                 }
+
+                if (withWall)
+                {
+                    Console.ForegroundColor = ConsoleColor.Gray;
+                    System.Console.Write("■");
+                }
+
                 System.Console.WriteLine();
             }
+
+            for (int p = 0; p < leftPadding; ++p)
+            {
+                System.Console.Write("　");
+            }
+
+            if (withWall)
+            {
+                Console.ForegroundColor = ConsoleColor.Gray;
+
+                for (int x = 0; x < Width + 2; ++x)
+                {
+                    System.Console.Write("■");
+
+                }
+                System.Console.WriteLine();
+            }
+
             Console.ForegroundColor = defaultForegroundColor;
         }
     }

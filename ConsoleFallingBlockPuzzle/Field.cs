@@ -67,7 +67,7 @@ namespace ConsoleFallingBlockPuzzle
 
                 for (int x = 0; x < Width; ++x)
                 {
-                    System.Console.Write("■", Blocks[y][x]);
+                    System.Console.Write("{0}", Blocks[y][x] == 0 ? "　" : "■");
                 }
 
                 if (withWall)

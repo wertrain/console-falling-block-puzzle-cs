@@ -11,6 +11,11 @@ namespace ConsoleFallingBlockPuzzle
         /// <summary>
         /// 
         /// </summary>
+        public char Wall { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
         public int Width { get; set; }
 
         /// <summary>
@@ -30,6 +35,7 @@ namespace ConsoleFallingBlockPuzzle
         {
             Width = width;
             Height = height;
+            Wall = '■';
 
             Blocks = new List<List<int>>(Height);
             for (int y = 0; y < Height; ++y)
@@ -61,19 +67,19 @@ namespace ConsoleFallingBlockPuzzle
                 if (withWall)
                 {
                     Console.ForegroundColor = ConsoleColor.Gray;
-                    System.Console.Write("■");
+                    System.Console.Write(Wall);
                     Console.ForegroundColor = ConsoleColor.Red;
                 }
 
                 for (int x = 0; x < Width; ++x)
                 {
-                    System.Console.Write("{0}", Blocks[y][x] == 0 ? "　" : "■");
+                    System.Console.Write("{0}", Blocks[y][x] == 0 ? "　" : Wall.ToString());
                 }
 
                 if (withWall)
                 {
                     Console.ForegroundColor = ConsoleColor.Gray;
-                    System.Console.Write("■");
+                    System.Console.Write(Wall);
                 }
 
                 System.Console.WriteLine();
@@ -90,7 +96,7 @@ namespace ConsoleFallingBlockPuzzle
 
                 for (int x = 0; x < Width + 2; ++x)
                 {
-                    System.Console.Write("■");
+                    System.Console.Write(Wall);
 
                 }
                 System.Console.WriteLine();

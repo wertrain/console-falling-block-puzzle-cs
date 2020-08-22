@@ -11,7 +11,7 @@ namespace ConsoleFallingBlockPuzzle
         static void Main(string[] args)
         {
             var field = new Field(10, 30);
-            field.Draw(true, 10);
+            Drawer.Draw(field, true, 10);
         }
     }
 }

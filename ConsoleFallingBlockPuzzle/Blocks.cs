@@ -8,6 +8,9 @@ namespace ConsoleFallingBlockPuzzle
 {
     class Blocks
     {
+        /// <summary>
+        /// 
+        /// </summary>
         public enum Types
         {
             I,
@@ -20,6 +23,11 @@ namespace ConsoleFallingBlockPuzzle
             V
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
         public static int [,] GetBlocks(Types type)
         {
             int i = 0;

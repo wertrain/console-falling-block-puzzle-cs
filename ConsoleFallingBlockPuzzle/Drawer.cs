@@ -12,7 +12,13 @@ namespace ConsoleFallingBlockPuzzle
         /// 
         /// </summary>
         public static char Wall { get; set; } = '■';
-
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="field"></param>
+        /// <param name="withWall"></param>
+        /// <param name="leftPadding"></param>
         public static void Draw(Field field, bool withWall, int leftPadding)
         {
             var defaultForegroundColor = Console.ForegroundColor;

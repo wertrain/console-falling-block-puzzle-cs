@@ -26,6 +26,11 @@ namespace ConsoleFallingBlockPuzzle
         /// <summary>
         /// 
         /// </summary>
+        public static char PaddingSpace { get; set; } = '　';
+
+        /// <summary>
+        /// 
+        /// </summary>
         /// <param name="field"></param>
         /// <param name="withWall"></param>
         /// <param name="leftPadding"></param>
@@ -38,7 +43,7 @@ namespace ConsoleFallingBlockPuzzle
             {
                 for (int p = 0; p < leftPadding; ++p)
                 {
-                    System.Console.Write("　");
+                    System.Console.Write(PaddingSpace.ToString());
                 }
 
                 if (withWall)
@@ -64,7 +69,7 @@ namespace ConsoleFallingBlockPuzzle
 
             for (int p = 0; p < leftPadding; ++p)
             {
-                System.Console.Write("　");
+                System.Console.Write(PaddingSpace.ToString());
             }
 
             if (withWall)
@@ -97,7 +102,7 @@ namespace ConsoleFallingBlockPuzzle
             {
                 for (int p = 0; p < leftPadding; ++p)
                 {
-                    System.Console.Write("　");
+                    System.Console.Write(PaddingSpace.ToString());
                 }
 
                 for (int x = 0, max = block.GetLength(1); x < max; ++x)

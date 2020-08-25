@@ -12,7 +12,17 @@ namespace ConsoleFallingBlockPuzzle
         /// 
         /// </summary>
         public static char Wall { get; set; } = '■';
-        
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public static char NormalBlock { get; set; } = '■';
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public static char EmptyBlock { get; set; } = '　';
+
         /// <summary>
         /// 
         /// </summary>
@@ -40,7 +50,7 @@ namespace ConsoleFallingBlockPuzzle
 
                 for (int x = 0; x < field.Width; ++x)
                 {
-                    System.Console.Write("{0}", field.Blocks[y][x] == 0 ? "　" : Wall.ToString());
+                    System.Console.Write("{0}", field.Blocks[y][x] == 0 ? EmptyBlock.ToString() : NormalBlock.ToString());
                 }
 
                 if (withWall)
@@ -69,6 +79,33 @@ namespace ConsoleFallingBlockPuzzle
                 System.Console.WriteLine();
             }
 
+            Console.ForegroundColor = defaultForegroundColor;
+        }
+
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="block"></param>
+        /// <param name="leftPadding"></param>
+        public static void Draw(int[,] block, int leftPadding)
+        {
+            var defaultForegroundColor = Console.ForegroundColor;
+
+            Console.ForegroundColor = ConsoleColor.Red;
+            for (int y = 0; y < block.GetLength(0); ++y)
+            {
+                for (int p = 0; p < leftPadding; ++p)
+                {
+                    System.Console.Write("　");
+                }
+
+                for (int x = 0, max = block.GetLength(1); x < max; ++x)
+                {
+                    System.Console.Write("{0}", block[y,x] == 0 ? EmptyBlock.ToString() : NormalBlock.ToString());
+                }
+                System.Console.WriteLine();
+            }
             Console.ForegroundColor = defaultForegroundColor;
         }
     }

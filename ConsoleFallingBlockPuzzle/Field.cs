@@ -21,7 +21,7 @@ namespace ConsoleFallingBlockPuzzle
         /// <summary>
         /// 
         /// </summary>
-        public List<List<int>> Blocks { get; set; }
+        public int[,] Blocks { get; set; }
 
         /// <summary>
         /// 
@@ -31,14 +31,12 @@ namespace ConsoleFallingBlockPuzzle
             Width = width;
             Height = height;
 
-            Blocks = new List<List<int>>(Height);
-            for (int y = 0; y < Height; ++y)
+            Blocks = new int[Height, Width];
+            for (int y = 0; y < Blocks.GetLength(0); ++y)
             {
-                Blocks.Add(new List<int>(Width));
-
-                for (int x = 0; x < Width; ++x)
+                for (int x = 0, max = Blocks.GetLength(1); x < max; ++x)
                 {
-                    Blocks[y].Add(0);
+                    Blocks[y, x] = 0;
                 }
             }
         }

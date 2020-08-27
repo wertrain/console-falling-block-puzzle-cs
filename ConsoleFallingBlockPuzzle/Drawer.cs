@@ -87,7 +87,7 @@ namespace ConsoleFallingBlockPuzzle
             Console.ForegroundColor = defaultForegroundColor;
         }
 
-        
+
         /// <summary>
         /// 
         /// </summary>
@@ -107,7 +107,28 @@ namespace ConsoleFallingBlockPuzzle
 
                 for (int x = 0, max = block.GetLength(1); x < max; ++x)
                 {
-                    System.Console.Write("{0}", block[y,x] == 0 ? EmptyBlock.ToString() : NormalBlock.ToString());
+                    System.Console.Write("{0}", block[y, x] == 0 ? EmptyBlock.ToString() : NormalBlock.ToString());
+                }
+                System.Console.WriteLine();
+            }
+            Console.ForegroundColor = defaultForegroundColor;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="block"></param>
+        /// <param name="leftPadding"></param>
+        public static void Draw(int[,] screen)
+        {
+            var defaultForegroundColor = Console.ForegroundColor;
+
+            Console.ForegroundColor = ConsoleColor.Red;
+            for (int y = 0; y < screen.GetLength(0); ++y)
+            {
+                for (int x = 0, max = screen.GetLength(1); x < max; ++x)
+                {
+                    System.Console.Write("{0}", screen[y, x] == 0 ? EmptyBlock.ToString() : NormalBlock.ToString());
                 }
                 System.Console.WriteLine();
             }

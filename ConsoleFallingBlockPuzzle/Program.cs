@@ -10,11 +10,14 @@ namespace ConsoleFallingBlockPuzzle
     {
         static void Main(string[] args)
         {
-            var field = new Field(10, 30);
-            Drawer.Draw(field, true, 10);
+            //var field = new Field(10, 30);
+            //Drawer.Draw(field, true, 10);
 
-            var block = Blocks.GetBlocks(Blocks.Types.L);
-            Drawer.Draw(block, 0);
+            //var block = Blocks.GetBlocks(Blocks.Types.L);
+            //Drawer.Draw(block, 0);
+
+            var game = new Game();
+            Drawer.Draw(game.Screen);
         }
     }
 }

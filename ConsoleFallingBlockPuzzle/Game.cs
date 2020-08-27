@@ -8,6 +8,13 @@ namespace ConsoleFallingBlockPuzzle
 {
     class Game
     {
-        private int[,] Screen { get; set; } 
+        public int[,] Screen { get; private set; }
+
+        private Field Field { get; set; }
+
+        public Game()
+        {
+            Screen = new int[48, 32];
+        }
     }
 }

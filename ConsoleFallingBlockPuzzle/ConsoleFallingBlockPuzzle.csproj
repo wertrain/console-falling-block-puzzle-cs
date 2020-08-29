@@ -43,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Blocks.cs" />
+    <Compile Include="Defs.cs" />
     <Compile Include="Drawer.cs" />
     <Compile Include="Field.cs" />
     <Compile Include="Game.cs" />

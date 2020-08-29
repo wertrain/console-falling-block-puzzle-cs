@@ -11,22 +11,58 @@ namespace ConsoleFallingBlockPuzzle
         /// <summary>
         /// 
         /// </summary>
-        public static char Wall { get; set; } = '■';
+        private static char Wall { get; set; } = '■';
 
         /// <summary>
         /// 
         /// </summary>
-        public static char NormalBlock { get; set; } = '■';
+        private static char NormalBlock { get; set; } = '■';
 
         /// <summary>
         /// 
         /// </summary>
-        public static char EmptyBlock { get; set; } = '　';
+        private static char EmptyBlock { get; set; } = '■';
 
         /// <summary>
         /// 
         /// </summary>
-        public static char PaddingSpace { get; set; } = '　';
+        private static char PaddingSpace { get; set; } = '■';
+
+        /// <summary>
+        /// 
+        /// </summary>
+        private static Dictionary<Defs.Blocks, ConsoleColor> ColorTable { get; } = new Dictionary<Defs.Blocks, ConsoleColor>
+        {
+            { Defs.Blocks.Space,       ConsoleColor.Black    },
+            { Defs.Blocks.EmptyField,  ConsoleColor.DarkGray    },
+            { Defs.Blocks.EmptyBlock,  ConsoleColor.Gray        },
+            { Defs.Blocks.Block_0,     ConsoleColor.DarkBlue    },
+            { Defs.Blocks.Block_1,     ConsoleColor.Yellow      },
+            { Defs.Blocks.Block_2,     ConsoleColor.DarkMagenta },
+            { Defs.Blocks.Block_3,     ConsoleColor.Blue        },
+            { Defs.Blocks.Block_4,     ConsoleColor.Magenta     },
+            { Defs.Blocks.Block_5,     ConsoleColor.Green       },
+            { Defs.Blocks.Block_6,     ConsoleColor.Red         },
+            { Defs.Blocks.Block_7,     ConsoleColor.DarkRed     },
+        };
+
+        /// <summary>
+        /// 
+        /// </summary>
+        private static Dictionary<Defs.Blocks, char> BlockTable { get; } = new Dictionary<Defs.Blocks, char>
+        {
+            { Defs.Blocks.Space,       PaddingSpace },
+            { Defs.Blocks.EmptyField,  EmptyBlock   },
+            { Defs.Blocks.EmptyBlock,  EmptyBlock   },
+            { Defs.Blocks.Block_0,     NormalBlock  },
+            { Defs.Blocks.Block_1,     NormalBlock  },
+            { Defs.Blocks.Block_2,     NormalBlock  },
+            { Defs.Blocks.Block_3,     NormalBlock  },
+            { Defs.Blocks.Block_4,     NormalBlock  },
+            { Defs.Blocks.Block_5,     NormalBlock  },
+            { Defs.Blocks.Block_6,     NormalBlock  },
+            { Defs.Blocks.Block_7,     NormalBlock  },
+        };
 
         /// <summary>
         /// 
@@ -93,7 +129,7 @@ namespace ConsoleFallingBlockPuzzle
         /// </summary>
         /// <param name="block"></param>
         /// <param name="leftPadding"></param>
-        public static void Draw(int[,] block, int leftPadding)
+        public static void Draw(Defs.Blocks[,] block, int leftPadding)
         {
             var defaultForegroundColor = Console.ForegroundColor;
 
@@ -119,16 +155,18 @@ namespace ConsoleFallingBlockPuzzle
         /// </summary>
         /// <param name="block"></param>
         /// <param name="leftPadding"></param>
-        public static void Draw(int[,] screen)
+        public static void Draw(Defs.Blocks[,] screen)
         {
             var defaultForegroundColor = Console.ForegroundColor;
 
-            Console.ForegroundColor = ConsoleColor.Red;
+            
             for (int y = 0; y < screen.GetLength(0); ++y)
             {
                 for (int x = 0, max = screen.GetLength(1); x < max; ++x)
                 {
-                    System.Console.Write("{0}", screen[y, x] == 0 ? EmptyBlock.ToString() : NormalBlock.ToString());
+                    Defs.Blocks block = screen[y, x];
+                    Console.ForegroundColor = ColorTable[block];
+                    System.Console.Write("{0}", BlockTable[block]);
                 }
                 System.Console.WriteLine();
             }

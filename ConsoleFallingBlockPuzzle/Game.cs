@@ -8,13 +8,36 @@ namespace ConsoleFallingBlockPuzzle
 {
     class Game
     {
-        public int[,] Screen { get; private set; }
+        public Defs.Blocks[,] Screen { get; private set; }
 
         private Field Field { get; set; }
 
         public Game()
         {
-            Screen = new int[48, 32];
+            Screen = new Defs.Blocks[28, 32];
+            Field = new Field(10, 25);
+
+            var blocks = Blocks.ReplaceBlock(Blocks.GetBlocks(Blocks.Types.L), Defs.Blocks.EmptyBlock, Defs.Blocks.EmptyField);
+            Field.SpawnBlock(blocks);
+
+            MergeToScreen(Blocks.GetBlocks(Blocks.Types.L), 1, 1);
+            MergeToScreen(Field.Blocks, 6, 1);
+        }
+
+        public void ApplyScreen()
+        {
+
+        }
+
+        private void MergeToScreen(Defs.Blocks[,] target, int posX, int posY)
+        {
+            for (int y = 0; y < target.GetLength(0); ++y)
+            {
+                for (int x = 0, max = target.GetLength(1); x < max; ++x)
+                {
+                    Screen[y + posY, x + posX] = target[y, x];
+                }
+            }
         }
     }
 }

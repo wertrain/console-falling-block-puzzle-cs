@@ -28,77 +28,98 @@ namespace ConsoleFallingBlockPuzzle
         /// </summary>
         /// <param name="type"></param>
         /// <returns></returns>
-        public static int [,] GetBlocks(Types type)
+        public static Defs.Blocks[,] GetBlocks(Types type)
         {
-            int i = 0;
+            Defs.Blocks i = Defs.Blocks.Block_0;
+            Defs.Blocks o = Defs.Blocks.EmptyBlock;
             switch (type)
             {
                 case Types.I:
-                    i = 1;
-                    return new int[,] { 
-                        { 0, 0, 0, 0 },
-                        { 0, 0, 0, 0 }, 
+                    i = Defs.Blocks.Block_0;
+                    return new Defs.Blocks[,] {
+                        { o, o, o, o },
+                        { o, o, o, o },
                         { i, i, i, i },
-                        { 0, 0, 0, 0 },
+                        { o, o, o, o },
                     };
                 case Types.O:
-                    i = 2;
-                    return new int[,] {
-                        { 0, 0, 0, 0 },
-                        { 0, i, i, 0 },
-                        { 0, i, i, 0 },
-                        { 0, 0, 0, 0 },
+                    i = Defs.Blocks.Block_1;
+                    return new Defs.Blocks[,] {
+                        { o, o, o, o },
+                        { o, i, i, o },
+                        { o, i, i, o },
+                        { o, o, o, o },
                     };
                 case Types.T:
-                    i = 3;
-                    return new int[,] {
-                        { 0, 0, 0, 0 },
-                        { i, i, i, 0 },
-                        { 0, i, 0, 0 },
-                        { 0, 0, 0, 0 },
+                    i = Defs.Blocks.Block_2;
+                    return new Defs.Blocks[,] {
+                        { o, o, o, o },
+                        { i, i, i, o },
+                        { o, i, o, o },
+                        { o, o, o, o },
                     };
                 case Types.J:
-                    i = 4;
-                    return new int[,] {
-                        { 0, 0, 0, 0 },
-                        { i, 0, 0, 0 },
-                        { i, i, i, 0 },
-                        { 0, 0, 0, 0 },
+                    i = Defs.Blocks.Block_3;
+                    return new Defs.Blocks[,] {
+                        { o, o, o, o },
+                        { i, o, o, o },
+                        { i, i, i, o },
+                        { o, o, o, o },
                     };
                 case Types.L:
-                    i = 4;
-                    return new int[,] {
-                        { 0, 0, 0, 0 },
-                        { 0, 0, i, 0 },
-                        { i, i, i, 0 },
-                        { 0, 0, 0, 0 },
+                    i = Defs.Blocks.Block_4;
+                    return new Defs.Blocks[,] {
+                        { o, o, o, o },
+                        { o, o, i, o },
+                        { i, i, i, o },
+                        { o, o, o, o },
                     };
                 case Types.S:
-                    i = 5;
-                    return new int[,] {
-                        { 0, 0, 0, 0 },
-                        { 0, i, i, 0 },
-                        { i, i, 0, 0 },
-                        { 0, 0, 0, 0 },
+                    i = Defs.Blocks.Block_5;
+                    return new Defs.Blocks[,] {
+                        { o, o, o, o },
+                        { o, i, i, o },
+                        { i, i, o, o },
+                        { o, o, o, o },
                     };
                 case Types.Z:
-                    i = 6;
-                    return new int[,] {
-                        { 0, 0, 0, 0 },
-                        { i, i, 0, 0 },
-                        { 0, i, i, 0 },
-                        { 0, 0, 0, 0 },
+                    i = Defs.Blocks.Block_6;
+                    return new Defs.Blocks[,] {
+                        { o, o, o, o },
+                        { i, i, o, o },
+                        { o, i, i, o },
+                        { o, o, o, o },
                     };
                 case Types.V:
-                    i = 7;
-                    return new int[,] {
-                        { 0, 0, 0, 0 },
-                        { 0, i, 0, 0 },
-                        { 0, i, i, 0 },
-                        { 0, 0, 0, 0 },
+                    i = Defs.Blocks.Block_7;
+                    return new Defs.Blocks[,] {
+                        { o, o, o, o },
+                        { o, i, o, o },
+                        { o, i, i, o },
+                        { o, o, o, o },
                     };
             }
             return null;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="target"></param>
+        /// <param name="src"></param>
+        /// <param name="dest"></param>
+        /// <returns></returns>
+        public static Defs.Blocks[,] ReplaceBlock(Defs.Blocks[,] target, Defs.Blocks src, Defs.Blocks dest)
+        {
+            var copied = (Defs.Blocks[,])target.Clone();
+            for (int y = 0; y < copied.GetLength(0); ++y)
+            {
+                for (int x = 0, max = copied.GetLength(1); x < max; ++x)
+                {
+                    copied[y, x] = (copied[y, x] == src) ? dest : copied[y, x];
+                }
+            }
+            return copied;
         }
     }
 }

@@ -8,6 +8,35 @@ namespace ConsoleFallingBlockPuzzle
 {
     class Field
     {
+        class BlocksObject
+        {
+            /// <summary>
+            /// 
+            /// </summary>
+            public int X { get; set; }
+
+            /// <summary>
+            /// 
+            /// </summary>
+            public int Y { get; set; }
+
+            /// <summary>
+            /// 
+            /// </summary>
+            public Defs.Blocks[,] Blocks { get; set; }
+
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="blocks"></param>
+            public BlocksObject(Defs.Blocks[,] blocks, int x, int y)
+            {
+                Blocks = blocks;
+                X = x;
+                Y = y;
+            }
+        }
+
         /// <summary>
         /// 
         /// </summary>
@@ -21,7 +50,7 @@ namespace ConsoleFallingBlockPuzzle
         /// <summary>
         /// 
         /// </summary>
-        public Defs.Blocks[,] Blocks { get; set; }
+        public Defs.Blocks[,] FieldBlocks { get; set; }
 
         /// <summary>
         /// 
@@ -31,19 +60,26 @@ namespace ConsoleFallingBlockPuzzle
         /// <summary>
         /// 
         /// </summary>
+        private BlocksObject ActiveBlocks { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
         public Field(int width, int height)
         {
             Width = width;
             Height = height;
 
-            Blocks = new Defs.Blocks[Height, Width];
-            for (int y = 0; y < Blocks.GetLength(0); ++y)
+            FieldBlocks = new Defs.Blocks[Height, Width];
+            for (int y = 0; y < FieldBlocks.GetLength(0); ++y)
             {
-                for (int x = 0, max = Blocks.GetLength(1); x < max; ++x)
+                for (int x = 0, max = FieldBlocks.GetLength(1); x < max; ++x)
                 {
-                    Blocks[y, x] = Defs.Blocks.EmptyField;
+                    FieldBlocks[y, x] = Defs.Blocks.EmptyField;
                 }
             }
+
+            BlocksList = new List<Defs.Blocks[,]>();
         }
 
         /// <summary>
@@ -57,10 +93,49 @@ namespace ConsoleFallingBlockPuzzle
             {
                 for (int x = 0, max = blocks.GetLength(1); x < max; ++x)
                 {
-                    Blocks[y + posY, x + posX] = blocks[y, x];
+                    FieldBlocks[y + posY, x + posX] = blocks[y, x];
                 }
             }
+
+            ActiveBlocks = new BlocksObject(blocks, 2, 0);
             BlocksList.Add(blocks);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public void Step()
+        {
+            for (int y = 0; y < ActiveBlocks.Blocks.GetLength(0); ++y)
+            {
+                for (int x = 0, max = ActiveBlocks.Blocks.GetLength(1); x < max; ++x)
+                {
+                    FieldBlocks[y + ActiveBlocks.Y, x + ActiveBlocks.X] = Defs.Blocks.EmptyField;
+                }
+            }
+
+            for (int y = 0; y < ActiveBlocks.Blocks.GetLength(0); ++y)
+            {
+                for (int x = 0, max = ActiveBlocks.Blocks.GetLength(1); x < max; ++x)
+                {
+                    if (FieldBlocks[y + ActiveBlocks.Y + 1, x + ActiveBlocks.X] != Defs.Blocks.EmptyField)
+                    {
+                        return;
+                    }
+                }
+            }
+
+
+
+            ++ActiveBlocks.Y;
+
+            for (int y = 0; y < ActiveBlocks.Blocks.GetLength(0); ++y)
+            {
+                for (int x = 0, max = ActiveBlocks.Blocks.GetLength(1); x < max; ++x)
+                {
+                    FieldBlocks[y + ActiveBlocks.Y, x + ActiveBlocks.X] = ActiveBlocks.Blocks[y, x];
+                }
+            }
         }
     }
 }

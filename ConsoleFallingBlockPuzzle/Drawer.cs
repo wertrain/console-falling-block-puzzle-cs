@@ -91,7 +91,7 @@ namespace ConsoleFallingBlockPuzzle
 
                 for (int x = 0; x < field.Width; ++x)
                 {
-                    System.Console.Write("{0}", field.Blocks[y, x] == 0 ? EmptyBlock.ToString() : NormalBlock.ToString());
+                    System.Console.Write("{0}", field.FieldBlocks[y, x] == 0 ? EmptyBlock.ToString() : NormalBlock.ToString());
                 }
 
                 if (withWall)

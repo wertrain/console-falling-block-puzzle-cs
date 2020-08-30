@@ -20,8 +20,12 @@ namespace ConsoleFallingBlockPuzzle
             var blocks = Blocks.ReplaceBlock(Blocks.GetBlocks(Blocks.Types.L), Defs.Blocks.EmptyBlock, Defs.Blocks.EmptyField);
             Field.SpawnBlock(blocks);
 
+            Field.Step();
+            Field.Step();
+            Field.Step();
+
             MergeToScreen(Blocks.GetBlocks(Blocks.Types.L), 1, 1);
-            MergeToScreen(Field.Blocks, 6, 1);
+            MergeToScreen(Field.FieldBlocks, 6, 1);
         }
 
         public void ApplyScreen()

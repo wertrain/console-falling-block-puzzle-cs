@@ -17,7 +17,8 @@ namespace ConsoleFallingBlockPuzzle
             //Drawer.Draw(block, 0);
 
             var game = new Game();
-            Drawer.Draw(game.Screen);
+            game.Update();
+            //Drawer.Draw(game.Screen);
         }
     }
 }

@@ -43,5 +43,22 @@ namespace ConsoleFallingBlockPuzzle
                 }
             }
         }
+
+        public void Update()
+        {
+            var inputKey = new ConsoleKeyInfo();
+            do
+            {
+                Drawer.Clear();
+
+                Field.Step();
+                MergeToScreen(Field.FieldBlocks, 6, 1);
+                Drawer.Draw(Screen);
+
+                inputKey = Console.ReadKey();
+            }
+            while (inputKey.Key != ConsoleKey.Q);
+            
+        }
     }
 }

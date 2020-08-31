@@ -157,20 +157,25 @@ namespace ConsoleFallingBlockPuzzle
         /// <param name="leftPadding"></param>
         public static void Draw(Defs.Blocks[,] screen)
         {
-            var defaultForegroundColor = Console.ForegroundColor;
-
-            
+            StringBuilder stringBuilder = new StringBuilder();
             for (int y = 0; y < screen.GetLength(0); ++y)
             {
                 for (int x = 0, max = screen.GetLength(1); x < max; ++x)
                 {
                     Defs.Blocks block = screen[y, x];
                     Console.ForegroundColor = ColorTable[block];
-                    System.Console.Write("{0}", BlockTable[block]);
+                    stringBuilder.Append(BlockTable[block]);
                 }
-                System.Console.WriteLine();
+                stringBuilder.AppendLine() ;
             }
+            var defaultForegroundColor = Console.ForegroundColor;
+            Console.WriteLine(stringBuilder.ToString());
             Console.ForegroundColor = defaultForegroundColor;
+        }
+
+        public static void Clear()
+        {
+            Console.Clear();
         }
     }
 }

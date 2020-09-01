@@ -125,8 +125,6 @@ namespace ConsoleFallingBlockPuzzle
                 }
             }
 
-
-
             ++ActiveBlocks.Y;
 
             for (int y = 0; y < ActiveBlocks.Blocks.GetLength(0); ++y)

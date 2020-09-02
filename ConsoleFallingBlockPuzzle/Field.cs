@@ -101,25 +101,63 @@ namespace ConsoleFallingBlockPuzzle
             BlocksList.Add(blocks);
         }
 
+        public void FixBlock(Defs.Blocks[,] blocks, int blockX, int blockY)
+        {
+            for (int y = 0; y < blocks.GetLength(0); ++y)
+            {
+                for (int x = 0, max = blocks.GetLength(1); x < max; ++x)
+                {
+                    if (ActiveBlocks.Blocks[y, x] == Defs.Blocks.EmptyField)
+                    {
+                        continue;
+                    }
+
+                    FieldBlocks[y + blockY, x + blockX] = blocks[y, x];
+                }
+            }
+        }
+
+        public void ClearBlock(Defs.Blocks[,] blocks, int blockX, int blockY)
+        {
+            for (int y = 0; y < blocks.GetLength(0); ++y)
+            {
+                for (int x = 0, max = blocks.GetLength(1); x < max; ++x)
+                {
+                    if (ActiveBlocks.Blocks[y, x] == Defs.Blocks.EmptyField)
+                    {
+                        continue;
+                    }
+
+                    FieldBlocks[y + blockY, x + blockX] = Defs.Blocks.EmptyField;
+                }
+            }
+        }
+
         /// <summary>
         /// 
         /// </summary>
         public void Step()
         {
-            for (int y = 0; y < ActiveBlocks.Blocks.GetLength(0); ++y)
-            {
-                for (int x = 0, max = ActiveBlocks.Blocks.GetLength(1); x < max; ++x)
-                {
-                    FieldBlocks[y + ActiveBlocks.Y, x + ActiveBlocks.X] = Defs.Blocks.EmptyField;
-                }
-            }
+            ClearBlock(ActiveBlocks.Blocks, ActiveBlocks.X, ActiveBlocks.Y);
 
             for (int y = 0; y < ActiveBlocks.Blocks.GetLength(0); ++y)
             {
                 for (int x = 0, max = ActiveBlocks.Blocks.GetLength(1); x < max; ++x)
                 {
+                    if (ActiveBlocks.Blocks[y, x] == Defs.Blocks.EmptyField)
+                    {
+                        continue;
+                    }
+
+                    if (y + ActiveBlocks.Y + 1 > FieldBlocks.GetLength(0) - 1)
+                    {
+                        FixBlock(ActiveBlocks.Blocks, ActiveBlocks.X, y + ActiveBlocks.Y);
+                        return;
+                    }
+
                     if (FieldBlocks[y + ActiveBlocks.Y + 1, x + ActiveBlocks.X] != Defs.Blocks.EmptyField)
                     {
+                        FixBlock(ActiveBlocks.Blocks, ActiveBlocks.X, y + ActiveBlocks.Y);
                         return;
                     }
                 }
@@ -127,13 +165,7 @@ namespace ConsoleFallingBlockPuzzle
 
             ++ActiveBlocks.Y;
 
-            for (int y = 0; y < ActiveBlocks.Blocks.GetLength(0); ++y)
-            {
-                for (int x = 0, max = ActiveBlocks.Blocks.GetLength(1); x < max; ++x)
-                {
-                    FieldBlocks[y + ActiveBlocks.Y, x + ActiveBlocks.X] = ActiveBlocks.Blocks[y, x];
-                }
-            }
+            FixBlock(ActiveBlocks.Blocks, ActiveBlocks.X, ActiveBlocks.Y);
         }
     }
 }

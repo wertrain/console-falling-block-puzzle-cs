@@ -112,6 +112,11 @@ namespace ConsoleFallingBlockPuzzle
                         continue;
                     }
 
+                    if (y + blockY > FieldBlocks.GetLength(0) - 1 || x + blockX > FieldBlocks.GetLength(1) -1)
+                    {
+                        continue;
+                    }
+
                     FieldBlocks[y + blockY, x + blockX] = blocks[y, x];
                 }
             }
@@ -123,7 +128,12 @@ namespace ConsoleFallingBlockPuzzle
             {
                 for (int x = 0, max = blocks.GetLength(1); x < max; ++x)
                 {
-                    if (ActiveBlocks.Blocks[y, x] == Defs.Blocks.EmptyField)
+                    if (blocks[y, x] == Defs.Blocks.EmptyField)
+                    {
+                        continue;
+                    }
+
+                    if (y + blockY > FieldBlocks.GetLength(0) || x + blockX > FieldBlocks.GetLength(0))
                     {
                         continue;
                     }
@@ -138,6 +148,8 @@ namespace ConsoleFallingBlockPuzzle
         /// </summary>
         public void Step()
         {
+            if (ActiveBlocks == null) return;
+
             ClearBlock(ActiveBlocks.Blocks, ActiveBlocks.X, ActiveBlocks.Y);
 
             for (int y = 0; y < ActiveBlocks.Blocks.GetLength(0); ++y)
@@ -151,13 +163,15 @@ namespace ConsoleFallingBlockPuzzle
 
                     if (y + ActiveBlocks.Y + 1 > FieldBlocks.GetLength(0) - 1)
                     {
-                        FixBlock(ActiveBlocks.Blocks, ActiveBlocks.X, y + ActiveBlocks.Y);
+                        FixBlock(ActiveBlocks.Blocks, ActiveBlocks.X, ActiveBlocks.Y);
+                        ActiveBlocks = null;
                         return;
                     }
 
                     if (FieldBlocks[y + ActiveBlocks.Y + 1, x + ActiveBlocks.X] != Defs.Blocks.EmptyField)
                     {
-                        FixBlock(ActiveBlocks.Blocks, ActiveBlocks.X, y + ActiveBlocks.Y);
+                        FixBlock(ActiveBlocks.Blocks, ActiveBlocks.X, ActiveBlocks.Y);
+                        ActiveBlocks = null;
                         return;
                     }
                 }

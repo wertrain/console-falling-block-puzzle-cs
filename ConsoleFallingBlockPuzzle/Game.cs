@@ -9,13 +9,15 @@ namespace ConsoleFallingBlockPuzzle
     class Game
     {
         public Defs.Blocks[,] Screen { get; private set; }
+        public Defs.Blocks[,] PreviousScreen { get; private set; }
 
         private Field Field { get; set; }
 
         public Game()
         {
-            Screen = new Defs.Blocks[28, 32];
-            Field = new Field(10, 25);
+            Screen = new Defs.Blocks[25, 32];
+            PreviousScreen = new Defs.Blocks[25, 32];
+            Field = new Field(10, 24);
 
             var blocks = Blocks.ReplaceBlock(Blocks.GetBlocks(Blocks.Types.L), Defs.Blocks.EmptyBlock, Defs.Blocks.EmptyField);
             Field.SpawnBlock(blocks);
@@ -49,11 +51,12 @@ namespace ConsoleFallingBlockPuzzle
             var inputKey = new ConsoleKeyInfo();
             do
             {
-                Drawer.Clear();
+                //Drawer.Clear();
 
                 Field.Step();
                 MergeToScreen(Field.FieldBlocks, 6, 1);
-                Drawer.Draw(Screen);
+                Drawer.DrawDifference(Screen, PreviousScreen);
+                PreviousScreen = (Defs.Blocks[,])Screen.Clone();
 
                 inputKey = Console.ReadKey();
             }

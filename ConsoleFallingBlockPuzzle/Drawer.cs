@@ -33,7 +33,7 @@ namespace ConsoleFallingBlockPuzzle
         /// </summary>
         private static Dictionary<Defs.Blocks, ConsoleColor> ColorTable { get; } = new Dictionary<Defs.Blocks, ConsoleColor>
         {
-            { Defs.Blocks.Space,       ConsoleColor.Black    },
+            { Defs.Blocks.Space,       ConsoleColor.Black       },
             { Defs.Blocks.EmptyField,  ConsoleColor.DarkGray    },
             { Defs.Blocks.EmptyBlock,  ConsoleColor.Gray        },
             { Defs.Blocks.Block_0,     ConsoleColor.DarkBlue    },
@@ -62,6 +62,24 @@ namespace ConsoleFallingBlockPuzzle
             { Defs.Blocks.Block_5,     NormalBlock  },
             { Defs.Blocks.Block_6,     NormalBlock  },
             { Defs.Blocks.Block_7,     NormalBlock  },
+        };
+
+        /// <summary>
+        /// 
+        /// </summary>
+        private static Dictionary<Defs.Blocks, bool> IsBlockTable { get; } = new Dictionary<Defs.Blocks, bool>
+        {
+            { Defs.Blocks.Space,       false },
+            { Defs.Blocks.EmptyField,  false },
+            { Defs.Blocks.EmptyBlock,  false },
+            { Defs.Blocks.Block_0,     true  },
+            { Defs.Blocks.Block_1,     true  },
+            { Defs.Blocks.Block_2,     true  },
+            { Defs.Blocks.Block_3,     true  },
+            { Defs.Blocks.Block_4,     true  },
+            { Defs.Blocks.Block_5,     true  },
+            { Defs.Blocks.Block_6,     true  },
+            { Defs.Blocks.Block_7,     true  },
         };
 
         /// <summary>
@@ -171,6 +189,55 @@ namespace ConsoleFallingBlockPuzzle
             Console.ForegroundColor = defaultForegroundColor;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="screen"></param>
+        public static void DrawBuffered(Defs.Blocks[,] screen)
+        {
+            var stringBuilder = new StringBuilder();
+            for (int y = 0; y < screen.GetLength(0); ++y)
+            {
+                for (int x = 0, max = screen.GetLength(1); x < max; ++x)
+                {
+                    Defs.Blocks block = screen[y, x];
+                    stringBuilder.Append(IsBlockTable[block] ? "■" : "　");
+                }
+                stringBuilder.AppendLine();
+            }
+            System.Console.Write(stringBuilder.ToString());
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="screen"></param>
+        /// <param name="previousScreen"></param>
+        public static void DrawDifference(Defs.Blocks[,] screen, Defs.Blocks[,] previousScreen)
+        {
+            var defaultForegroundColor = Console.ForegroundColor;
+            for (int y = 0; y < screen.GetLength(0); ++y)
+            {
+                for (int x = 0, max = screen.GetLength(1); x < max; ++x)
+                {
+                    Defs.Blocks block = screen[y, x];
+                    Defs.Blocks drawnBlock = previousScreen[y, x];
+                    if (drawnBlock == block) continue;
+
+                    Console.CursorLeft = x * 2;
+                    Console.CursorTop = y;
+                    Console.ForegroundColor = ColorTable[block];
+                    System.Console.Write("{0}", BlockTable[block]);
+                }
+                Console.WindowTop = 0;
+            }
+            Console.ForegroundColor = defaultForegroundColor;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
         public static void Clear()
         {
             Console.Clear();

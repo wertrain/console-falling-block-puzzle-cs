@@ -67,24 +67,6 @@ namespace ConsoleFallingBlockPuzzle
         /// <summary>
         /// 
         /// </summary>
-        private static Dictionary<Defs.Blocks, bool> IsBlockTable { get; } = new Dictionary<Defs.Blocks, bool>
-        {
-            { Defs.Blocks.Space,       false },
-            { Defs.Blocks.EmptyField,  false },
-            { Defs.Blocks.EmptyBlock,  false },
-            { Defs.Blocks.Block_0,     true  },
-            { Defs.Blocks.Block_1,     true  },
-            { Defs.Blocks.Block_2,     true  },
-            { Defs.Blocks.Block_3,     true  },
-            { Defs.Blocks.Block_4,     true  },
-            { Defs.Blocks.Block_5,     true  },
-            { Defs.Blocks.Block_6,     true  },
-            { Defs.Blocks.Block_7,     true  },
-        };
-
-        /// <summary>
-        /// 
-        /// </summary>
         /// <param name="field"></param>
         /// <param name="withWall"></param>
         /// <param name="leftPadding"></param>
@@ -188,26 +170,6 @@ namespace ConsoleFallingBlockPuzzle
             }
             Console.ForegroundColor = defaultForegroundColor;
         }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="screen"></param>
-        public static void DrawBuffered(Defs.Blocks[,] screen)
-        {
-            var stringBuilder = new StringBuilder();
-            for (int y = 0; y < screen.GetLength(0); ++y)
-            {
-                for (int x = 0, max = screen.GetLength(1); x < max; ++x)
-                {
-                    Defs.Blocks block = screen[y, x];
-                    stringBuilder.Append(IsBlockTable[block] ? "■" : "　");
-                }
-                stringBuilder.AppendLine();
-            }
-            System.Console.Write(stringBuilder.ToString());
-        }
-
 
         /// <summary>
         /// 

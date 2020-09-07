@@ -26,7 +26,7 @@ namespace ConsoleFallingBlockPuzzle
             Field.Step();
             Field.Step();
 
-            MergeToScreen(Blocks.RotateBlock(Blocks.GetBlocks(Blocks.Types.L)), 1, 1);
+            MergeToScreen(Blocks.GetBlocks(Blocks.Types.L), 1, 1);
             MergeToScreen(Field.FieldBlocks, 6, 1);
         }
 

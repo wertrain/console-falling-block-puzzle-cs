@@ -152,6 +152,8 @@ namespace ConsoleFallingBlockPuzzle
 
             ClearBlock(ActiveBlocks.Blocks, ActiveBlocks.X, ActiveBlocks.Y);
 
+            ActiveBlocks.Blocks = Blocks.RotateBlock(ActiveBlocks.Blocks);
+
             for (int y = 0; y < ActiveBlocks.Blocks.GetLength(0); ++y)
             {
                 for (int x = 0, max = ActiveBlocks.Blocks.GetLength(1); x < max; ++x)

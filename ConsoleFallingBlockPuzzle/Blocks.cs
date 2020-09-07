@@ -121,5 +121,23 @@ namespace ConsoleFallingBlockPuzzle
             }
             return copied;
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="target"></param>
+        /// <returns></returns>
+        public static Defs.Blocks[,] RotateBlock(Defs.Blocks[,] target)
+        {
+            var copied = (Defs.Blocks[,])target.Clone();
+            for (int y = 0; y < copied.GetLength(0); ++y)
+            {
+                for (int x = 0, max = copied.GetLength(1); x < max; ++x)
+                {
+                    copied[y, x] = target[copied.GetLength(1) - x - 1, y];
+                }
+            }
+            return copied;
+        }
     }
 }

@@ -105,6 +105,23 @@ namespace ConsoleFallingBlockPuzzle
         /// <summary>
         /// 
         /// </summary>
+        /// <returns></returns>
+        public static Defs.Blocks[,] GetRandomBlocks()
+        {
+            var random = new Random();
+
+            var table = new Types[] {
+                Types.I, Types.O, Types.T,
+                Types.J, Types.L, Types.S,
+                Types.Z, Types.V
+            };
+
+            return GetBlocks(table[random.Next(table.Length)]);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
         /// <param name="target"></param>
         /// <param name="src"></param>
         /// <param name="dest"></param>

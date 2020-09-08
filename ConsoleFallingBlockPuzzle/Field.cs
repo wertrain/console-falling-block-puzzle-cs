@@ -65,6 +65,11 @@ namespace ConsoleFallingBlockPuzzle
         /// <summary>
         /// 
         /// </summary>
+        public bool HasActiveBlock { get { return ActiveBlocks != null; } }
+
+        /// <summary>
+        /// 
+        /// </summary>
         public Field(int width, int height)
         {
             Width = width;
@@ -101,6 +106,12 @@ namespace ConsoleFallingBlockPuzzle
             BlocksList.Add(blocks);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="blocks"></param>
+        /// <param name="blockX"></param>
+        /// <param name="blockY"></param>
         public void FixBlock(Defs.Blocks[,] blocks, int blockX, int blockY)
         {
             for (int y = 0; y < blocks.GetLength(0); ++y)
@@ -122,6 +133,12 @@ namespace ConsoleFallingBlockPuzzle
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="blocks"></param>
+        /// <param name="blockX"></param>
+        /// <param name="blockY"></param>
         public void ClearBlock(Defs.Blocks[,] blocks, int blockX, int blockY)
         {
             for (int y = 0; y < blocks.GetLength(0); ++y)

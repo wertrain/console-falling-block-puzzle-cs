@@ -19,14 +19,10 @@ namespace ConsoleFallingBlockPuzzle
             PreviousScreen = new Defs.Blocks[25, 32];
             Field = new Field(10, 24);
 
-            var blocks = Blocks.ReplaceBlock(Blocks.GetBlocks(Blocks.Types.L), Defs.Blocks.EmptyBlock, Defs.Blocks.EmptyField);
+            var blocks = Blocks.ReplaceBlock(Blocks.GetBlocks(Blocks.Types.I), Defs.Blocks.EmptyBlock, Defs.Blocks.EmptyField);
             Field.SpawnBlock(blocks);
 
-            Field.Step();
-            Field.Step();
-            Field.Step();
-
-            MergeToScreen(Blocks.GetBlocks(Blocks.Types.L), 1, 1);
+            MergeToScreen(Blocks.GetRandomBlocks(), 1, 1);
             MergeToScreen(Field.FieldBlocks, 6, 1);
         }
 
@@ -55,6 +51,11 @@ namespace ConsoleFallingBlockPuzzle
 
                 Field.Step();
                 MergeToScreen(Field.FieldBlocks, 6, 1);
+                if (!Field.HasActiveBlock)
+                {
+                    var blocks = Blocks.ReplaceBlock(Blocks.GetRandomBlocks(), Defs.Blocks.EmptyBlock, Defs.Blocks.EmptyField);
+                    Field.SpawnBlock(blocks);
+                }
                 Drawer.DrawDifference(Screen, PreviousScreen);
                 PreviousScreen = (Defs.Blocks[,])Screen.Clone();
 

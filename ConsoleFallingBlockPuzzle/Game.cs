@@ -59,7 +59,8 @@ namespace ConsoleFallingBlockPuzzle
                 Drawer.DrawDifference(Screen, PreviousScreen);
                 PreviousScreen = (Defs.Blocks[,])Screen.Clone();
 
-                inputKey = Console.ReadKey();
+
+                System.Threading.Thread.Sleep(1000 / 10);
             }
             while (inputKey.Key != ConsoleKey.Q);
             

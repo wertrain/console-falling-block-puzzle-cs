@@ -45,11 +45,19 @@ namespace ConsoleFallingBlockPuzzle
         public void Update()
         {
             var inputKey = new ConsoleKeyInfo();
+
+            var stopwatch = new System.Diagnostics.Stopwatch();
+            stopwatch.Start();
+            double prevElapsed = 0;
             do
             {
                 //Drawer.Clear();
+                var currentDelta = stopwatch.Elapsed.TotalMilliseconds;
+                var delta = currentDelta - prevElapsed;
+                prevElapsed = currentDelta;
 
-                Field.Step();
+                Field.Step(delta);
+
                 MergeToScreen(Field.FieldBlocks, 6, 1);
                 if (!Field.HasActiveBlock)
                 {
@@ -59,11 +67,11 @@ namespace ConsoleFallingBlockPuzzle
                 Drawer.DrawDifference(Screen, PreviousScreen);
                 PreviousScreen = (Defs.Blocks[,])Screen.Clone();
 
-
                 System.Threading.Thread.Sleep(1000 / 10);
             }
             while (inputKey.Key != ConsoleKey.Q);
-            
+
+            stopwatch.Stop();
         }
     }
 }

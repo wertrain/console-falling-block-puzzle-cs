@@ -65,6 +65,11 @@ namespace ConsoleFallingBlockPuzzle
         /// <summary>
         /// 
         /// </summary>
+        private double ElapsedTime { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
         public bool HasActiveBlock { get { return ActiveBlocks != null; } }
 
         /// <summary>
@@ -163,8 +168,13 @@ namespace ConsoleFallingBlockPuzzle
         /// <summary>
         /// 
         /// </summary>
-        public void Step()
+        public void Step(double deltaTime)
         {
+            ElapsedTime += deltaTime;
+
+            if (ElapsedTime < 500) return;
+            ElapsedTime = 0;
+
             if (ActiveBlocks == null) return;
 
             ClearBlock(ActiveBlocks.Blocks, ActiveBlocks.X, ActiveBlocks.Y);

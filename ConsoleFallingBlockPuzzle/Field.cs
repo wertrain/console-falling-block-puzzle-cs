@@ -213,29 +213,11 @@ namespace ConsoleFallingBlockPuzzle
 
             ActiveBlocks.Blocks = Blocks.RotateBlock(ActiveBlocks.Blocks);
 
-            for (int y = 0; y < ActiveBlocks.Blocks.GetLength(0); ++y)
+            if (IsHitBlock(ActiveBlocks.Blocks, ActiveBlocks.X, ActiveBlocks.Y))
             {
-                for (int x = 0, max = ActiveBlocks.Blocks.GetLength(1); x < max; ++x)
-                {
-                    if (ActiveBlocks.Blocks[y, x] == Defs.Blocks.EmptyField)
-                    {
-                        continue;
-                    }
-
-                    if (y + ActiveBlocks.Y + 1 > FieldBlocks.GetLength(0) - 1)
-                    {
-                        FixBlock(ActiveBlocks.Blocks, ActiveBlocks.X, ActiveBlocks.Y);
-                        ActiveBlocks = null;
-                        return;
-                    }
-
-                    if (FieldBlocks[y + ActiveBlocks.Y + 1, x + ActiveBlocks.X] != Defs.Blocks.EmptyField)
-                    {
-                        FixBlock(ActiveBlocks.Blocks, ActiveBlocks.X, ActiveBlocks.Y);
-                        ActiveBlocks = null;
-                        return;
-                    }
-                }
+                FixBlock(ActiveBlocks.Blocks, ActiveBlocks.X, ActiveBlocks.Y);
+                ActiveBlocks = null;
+                return;
             }
 
             ++ActiveBlocks.Y;

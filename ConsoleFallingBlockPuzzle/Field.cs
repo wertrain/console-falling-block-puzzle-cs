@@ -168,6 +168,38 @@ namespace ConsoleFallingBlockPuzzle
         /// <summary>
         /// 
         /// </summary>
+        /// <param name="blocks"></param>
+        /// <param name="blockX"></param>
+        /// <param name="blockY"></param>
+        /// <returns></returns>
+        public bool IsHitBlock(Defs.Blocks[,] blocks, int blockX, int blockY)
+        {
+            for (int y = 0; y < blocks.GetLength(0); ++y)
+            {
+                for (int x = 0, max = blocks.GetLength(1); x < max; ++x)
+                {
+                    if (blocks[y, x] == Defs.Blocks.EmptyField)
+                    {
+                        continue;
+                    }
+
+                    if (y + blockY + 1 > FieldBlocks.GetLength(0) - 1)
+                    {
+                        return true;
+                    }
+
+                    if (FieldBlocks[y + blockY + 1, x + blockX] != Defs.Blocks.EmptyField)
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
         public void Step(double deltaTime)
         {
             ElapsedTime += deltaTime;

@@ -155,7 +155,7 @@ namespace ConsoleFallingBlockPuzzle
                         continue;
                     }
 
-                    if (y + blockY > FieldBlocks.GetLength(0) || x + blockX > FieldBlocks.GetLength(0))
+                    if (y + blockY > FieldBlocks.GetLength(0) || x + blockX > FieldBlocks.GetLength(1))
                     {
                         continue;
                     }

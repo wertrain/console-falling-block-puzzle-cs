@@ -15,15 +15,15 @@ namespace ConsoleFallingBlockPuzzle
 
         public Game()
         {
-            Screen = new Defs.Blocks[25, 32];
-            PreviousScreen = new Defs.Blocks[25, 32];
-            Field = new Field(10, 24);
+            Screen = new Defs.Blocks[32, 32];
+            PreviousScreen = new Defs.Blocks[32, 32];
+            Field = new Field(10, 30);
 
             var blocks = Blocks.ReplaceBlock(Blocks.GetBlocks(Blocks.Types.I), Defs.Blocks.EmptyBlock, Defs.Blocks.EmptyField);
             Field.SpawnBlock(blocks);
 
             MergeToScreen(Blocks.GetRandomBlocks(), 1, 1);
-            MergeToScreen(Field.FieldBlocks, 6, 1);
+            MergeToScreen(Field.FieldBlocks, 6, 1, 6);
         }
 
         public void ApplyScreen()
@@ -33,11 +33,16 @@ namespace ConsoleFallingBlockPuzzle
 
         private void MergeToScreen(Defs.Blocks[,] target, int posX, int posY)
         {
-            for (int y = 0; y < target.GetLength(0); ++y)
+            MergeToScreen(target, posX, posY, 0);
+        }
+
+        private void MergeToScreen(Defs.Blocks[,] target, int posX, int posY, int offsetY)
+        {
+            for (int y = offsetY; y < target.GetLength(0); ++y)
             {
                 for (int x = 0, max = target.GetLength(1); x < max; ++x)
                 {
-                    Screen[y + posY, x + posX] = target[y, x];
+                    Screen[y + posY - offsetY, x + posX] = target[y, x];
                 }
             }
         }
@@ -58,7 +63,7 @@ namespace ConsoleFallingBlockPuzzle
 
                 Field.Step(delta);
 
-                MergeToScreen(Field.FieldBlocks, 6, 1);
+                MergeToScreen(Field.FieldBlocks, 6, 1, 8);
                 if (!Field.HasActiveBlock)
                 {
                     var blocks = Blocks.ReplaceBlock(Blocks.GetRandomBlocks(), Defs.Blocks.EmptyBlock, Defs.Blocks.EmptyField);

@@ -193,8 +193,8 @@ namespace ConsoleFallingBlockPuzzle
                     System.Console.Write("{0}", BlockTable[block]);
                 }
             }
-            Console.CursorLeft = screen.GetLength(1);
-            Console.CursorTop = screen.GetLength(0);
+            Console.CursorLeft = 0;
+            Console.CursorTop = 0;
             Console.ForegroundColor = defaultForegroundColor;
         }
 

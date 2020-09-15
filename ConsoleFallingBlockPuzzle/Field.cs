@@ -222,6 +222,7 @@ namespace ConsoleFallingBlockPuzzle
 
             ++ActiveBlocks.Y;
 
+            // 移動後
             FixBlock(ActiveBlocks.Blocks, ActiveBlocks.X, ActiveBlocks.Y);
         }
     }

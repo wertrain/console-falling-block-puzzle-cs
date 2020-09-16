@@ -128,7 +128,7 @@ namespace ConsoleFallingBlockPuzzle
                         continue;
                     }
 
-                    if (y + blockY > FieldBlocks.GetLength(0) - 1 || x + blockX > FieldBlocks.GetLength(1) -1)
+                    if (y + blockY > FieldBlocks.GetLength(0) - 1 || x + blockX > FieldBlocks.GetLength(1) - 1)
                     {
                         continue;
                     }
@@ -155,7 +155,7 @@ namespace ConsoleFallingBlockPuzzle
                         continue;
                     }
 
-                    if (y + blockY > FieldBlocks.GetLength(0) || x + blockX > FieldBlocks.GetLength(1))
+                    if (y + blockY > FieldBlocks.GetLength(0) - 1 || x + blockX > FieldBlocks.GetLength(1) - 1)
                     {
                         continue;
                     }
@@ -183,12 +183,17 @@ namespace ConsoleFallingBlockPuzzle
                         continue;
                     }
 
-                    if (y + blockY + 1 > FieldBlocks.GetLength(0) - 1)
+                    if (y + blockY > FieldBlocks.GetLength(0) - 1)
                     {
-                        return true;
+                        continue;
                     }
 
-                    if (FieldBlocks[y + blockY + 1, x + blockX] != Defs.Blocks.EmptyField)
+                    if (x + blockX > FieldBlocks.GetLength(1) - 1)
+                    {
+                        continue;
+                    }
+
+                    if (FieldBlocks[y + blockY, x + blockX] != Defs.Blocks.EmptyField)
                     {
                         return true;
                     }
@@ -204,7 +209,7 @@ namespace ConsoleFallingBlockPuzzle
         {
             ElapsedTime += deltaTime;
 
-            if (ElapsedTime < 500) return;
+            if (ElapsedTime < 50) return;
             ElapsedTime = 0;
 
             if (ActiveBlocks == null) return;
@@ -213,7 +218,7 @@ namespace ConsoleFallingBlockPuzzle
 
             ActiveBlocks.Blocks = Blocks.RotateBlock(ActiveBlocks.Blocks);
 
-            if (IsHitBlock(ActiveBlocks.Blocks, ActiveBlocks.X, ActiveBlocks.Y))
+            if (IsHitBlock(ActiveBlocks.Blocks, ActiveBlocks.X, ActiveBlocks.Y + 1))
             {
                 FixBlock(ActiveBlocks.Blocks, ActiveBlocks.X, ActiveBlocks.Y);
                 ActiveBlocks = null;
@@ -222,7 +227,6 @@ namespace ConsoleFallingBlockPuzzle
 
             ++ActiveBlocks.Y;
 
-            // 移動後
             FixBlock(ActiveBlocks.Blocks, ActiveBlocks.X, ActiveBlocks.Y);
         }
     }

@@ -185,12 +185,12 @@ namespace ConsoleFallingBlockPuzzle
 
                     if (y + blockY > FieldBlocks.GetLength(0) - 1)
                     {
-                        continue;
+                        return true;
                     }
 
                     if (x + blockX > FieldBlocks.GetLength(1) - 1)
                     {
-                        continue;
+                        return true;
                     }
 
                     if (FieldBlocks[y + blockY, x + blockX] != Defs.Blocks.EmptyField)
@@ -216,7 +216,7 @@ namespace ConsoleFallingBlockPuzzle
 
             ClearBlock(ActiveBlocks.Blocks, ActiveBlocks.X, ActiveBlocks.Y);
 
-            ActiveBlocks.Blocks = Blocks.RotateBlock(ActiveBlocks.Blocks);
+            //ActiveBlocks.Blocks = Blocks.RotateBlock(ActiveBlocks.Blocks);
 
             if (IsHitBlock(ActiveBlocks.Blocks, ActiveBlocks.X, ActiveBlocks.Y + 1))
             {

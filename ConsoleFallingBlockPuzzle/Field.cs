@@ -75,6 +75,11 @@ namespace ConsoleFallingBlockPuzzle
         /// <summary>
         /// 
         /// </summary>
+        public bool RotateBlocks { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
         public Field(int width, int height)
         {
             Width = width;
@@ -216,7 +221,17 @@ namespace ConsoleFallingBlockPuzzle
 
             ClearBlock(ActiveBlocks.Blocks, ActiveBlocks.X, ActiveBlocks.Y);
 
-            //ActiveBlocks.Blocks = Blocks.RotateBlock(ActiveBlocks.Blocks);
+            if (RotateBlocks)
+            {
+                var rotateBlocks = Blocks.RotateBlock(ActiveBlocks.Blocks);
+
+                if (!IsHitBlock(rotateBlocks, ActiveBlocks.X, ActiveBlocks.Y))
+                {
+                    ActiveBlocks.Blocks = rotateBlocks;
+                }
+
+                RotateBlocks = false;
+            }
 
             if (IsHitBlock(ActiveBlocks.Blocks, ActiveBlocks.X, ActiveBlocks.Y + 1))
             {

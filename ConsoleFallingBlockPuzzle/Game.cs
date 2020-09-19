@@ -28,11 +28,6 @@ namespace ConsoleFallingBlockPuzzle
             MergeToScreen(Field.FieldBlocks, 6, 1, 6);
         }
 
-        public void ApplyScreen()
-        {
-
-        }
-
         private void MergeToScreen(Defs.Blocks[,] target, int posX, int posY)
         {
             MergeToScreen(target, posX, posY, 0);
@@ -58,10 +53,17 @@ namespace ConsoleFallingBlockPuzzle
             double prevElapsed = 0;
             do
             {
+                Input.Instance.Update();
+
                 //Drawer.Clear();
-                var currentDelta = stopwatch.Elapsed.TotalMilliseconds;
-                var delta = currentDelta - prevElapsed;
-                prevElapsed = currentDelta;
+                var currentElapsed = stopwatch.Elapsed.TotalMilliseconds;
+                var delta = currentElapsed - prevElapsed;
+                prevElapsed = currentElapsed;
+
+                if (Input.Instance.IsKeyTrigger(Input.KeyCode.Up))
+                {
+                    Field.RotateBlocks = true;
+                }
 
                 Field.Step(delta);
 

@@ -60,7 +60,7 @@ namespace ConsoleFallingBlockPuzzle
                 var delta = currentElapsed - prevElapsed;
                 prevElapsed = currentElapsed;
 
-                if (Input.Instance.IsKeyTrigger(Input.KeyCode.Up))
+                if (Input.Instance.IsKeyRelease(Input.KeyCode.Up))
                 {
                     Field.RotateBlocks = true;
                 }

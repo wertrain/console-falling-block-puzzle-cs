@@ -49,44 +49,47 @@ namespace ConsoleFallingBlockPuzzle
         public static Input Instance { get; private set; } = new Input();
 
         /// <summary>
-        /// A positional bit flag indicating the part of a key state denoting
-        /// key pressed.
+        /// 
         /// </summary>
-        private const int KeyPressed = 0x8000;
+        private int[] KeyPressTable { get; set; } = new int[256];
 
         /// <summary>
         /// 
         /// </summary>
-        private byte[] KeyPressTable { get; set; } = new byte[256];
+        private int[] KeyReleaseTable { get; set; } = new int[256];
 
         /// <summary>
         /// 
         /// </summary>
-        private byte [] KeyReleaseTable { get; set; } = new byte[256];
+        private int[] KeyTriggerTable { get; set; } = new int[256];
 
         /// <summary>
         /// 
         /// </summary>
-        private byte[] KeyTriggerTable { get; set; } = new byte[256];
-
-        /// <summary>
-        /// 
-        /// </summary>
-        private byte[] PreviousKeyPressTable { get; set; } = new byte[256];
+        private int[] PreviousKeyPressTable { get; set; } = new int[256];
 
         /// <summary>
         /// 
         /// </summary>
         public void Update()
         {
+            for (int i = 0; i < 256; ++i)
+            {
+                KeyTriggerTable[i] = 0;
+                KeyReleaseTable[i] = 0;
+            }
+
             Array.Copy(KeyPressTable, PreviousKeyPressTable, KeyPressTable.Length);
 
-            GetKeyboardState(KeyPressTable);
+            KeyPressTable[(int)KeyCode.Left] = (byte)GetKeyState((int)KeyCode.Left);
+            KeyPressTable[(int)KeyCode.Up] = (byte)GetKeyState((int)KeyCode.Up);
+            KeyPressTable[(int)KeyCode.Right] = (byte)GetKeyState((int)KeyCode.Right);
+            KeyPressTable[(int)KeyCode.Down] = (byte)GetKeyState((int)KeyCode.Down);
 
             for (int i = 0; i < 256; ++i)
             {
                 KeyTriggerTable[i] = (byte)((~PreviousKeyPressTable[i]) & KeyPressTable[i]);
-                KeyReleaseTable[i] = (byte)(PreviousKeyPressTable[i] & (~KeyPressTable[i]));
+                KeyReleaseTable[i] = (PreviousKeyPressTable[i] & (~KeyPressTable[i])) > 0 ? 1 : 0;
             }
         }
 
@@ -97,21 +100,29 @@ namespace ConsoleFallingBlockPuzzle
         /// <returns></returns>
         public bool IsKeyTrigger(KeyCode key)
         {
-            return (KeyTriggerTable[((int)key & 0xFF)] & 0x80) > 0;
+            return KeyTriggerTable[(int)key] > 0;
         }
 
         /// <summary>
-        /// Returns a value indicating if a given key is pressed.
+        /// 
         /// </summary>
-        /// <param name="key">The key to check.</param>
-        /// <returns>
-        /// <c>true</c> if the key is pressed, otherwise <c>false</c>.
-        /// </returns>
-        public static bool IsKeyDown(KeyCode key)
+        /// <param name="key"></param>
+        /// <returns></returns>
+        public bool IsKeyPress(KeyCode key)
         {
-            return (GetKeyState((int)key) & KeyPressed) != 0;
+            return KeyPressTable[(int)key] > 0;
         }
-        
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        public bool IsKeyRelease(KeyCode key)
+        {
+            return KeyReleaseTable[(int)key] > 0;
+        }
+
         /// <summary>
         /// Gets the key state of a key.
         /// </summary>
@@ -119,14 +130,5 @@ namespace ConsoleFallingBlockPuzzle
         /// <returns>The state of the key.</returns>
         [System.Runtime.InteropServices.DllImport("user32.dll")]
         private static extern short GetKeyState(int key);
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="key"></param>
-        /// <returns></returns>
-        [System.Runtime.InteropServices.DllImport("user32.dll")]
-        [return: System.Runtime.InteropServices.MarshalAs(System.Runtime.InteropServices.UnmanagedType.Bool)]
-        static extern bool GetKeyboardState(byte[] lpKeyState);
     }
 }

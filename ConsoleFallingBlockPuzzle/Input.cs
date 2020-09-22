@@ -21,7 +21,6 @@ namespace ConsoleFallingBlockPuzzle
         /// </summary>
         public enum KeyCode : int
         {
-
             /// <summary>
             /// 
             /// </summary>
@@ -41,6 +40,26 @@ namespace ConsoleFallingBlockPuzzle
             /// 
             /// </summary>
             Down = 40,
+
+            /// <summary>
+            /// 
+            /// </summary>
+            A = 65,
+
+            /// <summary>
+            /// 
+            /// </summary>
+            S = 83,
+
+            /// <summary>
+            /// 
+            /// </summary>
+            X = 88,
+
+            /// <summary>
+            /// 
+            /// </summary>
+            Z = 90
         }
 
         /// <summary>
@@ -51,45 +70,51 @@ namespace ConsoleFallingBlockPuzzle
         /// <summary>
         /// 
         /// </summary>
-        private int[] KeyPressTable { get; set; } = new int[256];
+        private const int KeyTableSize = 256;
 
         /// <summary>
         /// 
         /// </summary>
-        private int[] KeyReleaseTable { get; set; } = new int[256];
+        private int[] KeyPressTable { get; set; } = new int[KeyTableSize];
 
         /// <summary>
         /// 
         /// </summary>
-        private int[] KeyTriggerTable { get; set; } = new int[256];
+        private int[] KeyReleaseTable { get; set; } = new int[KeyTableSize];
 
         /// <summary>
         /// 
         /// </summary>
-        private int[] PreviousKeyPressTable { get; set; } = new int[256];
+        private int[] KeyTriggerTable { get; set; } = new int[KeyTableSize];
+
+        /// <summary>
+        /// 
+        /// </summary>
+        private int[] PreviousKeyPressTable { get; set; } = new int[KeyTableSize];
 
         /// <summary>
         /// 
         /// </summary>
         public void Update()
         {
-            for (int i = 0; i < 256; ++i)
+            Array.Copy(KeyPressTable, PreviousKeyPressTable, KeyPressTable.Length);
+
+            for (int i = 0; i < KeyTableSize; ++i)
             {
+                KeyPressTable[i] = 0;
                 KeyTriggerTable[i] = 0;
                 KeyReleaseTable[i] = 0;
             }
 
-            Array.Copy(KeyPressTable, PreviousKeyPressTable, KeyPressTable.Length);
+            foreach (KeyCode value in Enum.GetValues(typeof(KeyCode)))
+            {
+                KeyPressTable[(int)value] = (byte)GetAsyncKeyState((int)value);
+            }
 
-            KeyPressTable[(int)KeyCode.Left] = (byte)GetKeyState((int)KeyCode.Left);
-            KeyPressTable[(int)KeyCode.Up] = (byte)GetKeyState((int)KeyCode.Up);
-            KeyPressTable[(int)KeyCode.Right] = (byte)GetKeyState((int)KeyCode.Right);
-            KeyPressTable[(int)KeyCode.Down] = (byte)GetKeyState((int)KeyCode.Down);
-
-            for (int i = 0; i < 256; ++i)
+            for (int i = 0; i < KeyTableSize; ++i)
             {
                 KeyTriggerTable[i] = (byte)((~PreviousKeyPressTable[i]) & KeyPressTable[i]);
-                KeyReleaseTable[i] = (PreviousKeyPressTable[i] & (~KeyPressTable[i])) > 0 ? 1 : 0;
+                KeyReleaseTable[i] = (PreviousKeyPressTable[i] & (~KeyPressTable[i]));
             }
         }
 
@@ -129,6 +154,6 @@ namespace ConsoleFallingBlockPuzzle
         /// <param name="key">Virtuak-key code for key.</param>
         /// <returns>The state of the key.</returns>
         [System.Runtime.InteropServices.DllImport("user32.dll")]
-        private static extern short GetKeyState(int key);
+        private static extern int GetAsyncKeyState(int nVirtKey);
     }
 }

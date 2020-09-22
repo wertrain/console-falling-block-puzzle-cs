@@ -14,18 +14,20 @@ namespace ConsoleFallingBlockPuzzle
         private Field Field { get; set; }
         private Defs.Blocks[,] NextBlocks;
 
+        public static int FieldScreenOffsetY { get; } = 2;
+
         public Game()
         {
             Screen = new Defs.Blocks[32, 32];
             PreviousScreen = new Defs.Blocks[32, 32];
-            Field = new Field(10, 30);
+            Field = new Field(10, 26);
 
             var blocks = Blocks.ReplaceBlock(Blocks.GetBlocks(Blocks.Types.I), Defs.Blocks.EmptyBlock, Defs.Blocks.EmptyField);
             Field.SpawnBlock(blocks);
 
             NextBlocks = Blocks.GetRandomBlocks();
             MergeToScreen(Blocks.GetRandomBlocks(), 1, 1);
-            MergeToScreen(Field.FieldBlocks, 6, 1, 6);
+            MergeToScreen(Field.FieldBlocks, 6, 1, FieldScreenOffsetY);
         }
 
         private void MergeToScreen(Defs.Blocks[,] target, int posX, int posY)
@@ -60,14 +62,15 @@ namespace ConsoleFallingBlockPuzzle
                 var delta = currentElapsed - prevElapsed;
                 prevElapsed = currentElapsed;
 
-                if (Input.Instance.IsKeyRelease(Input.KeyCode.Up))
-                {
-                    Field.RotateBlocks = true;
-                }
+                Field.RotateBlocks = Input.Instance.IsKeyTrigger(Input.KeyCode.Z);
+                Field.MoveLeftBlocks = Input.Instance.IsKeyPress(Input.KeyCode.Left);
+                Field.MoveRightBlocks = Input.Instance.IsKeyPress(Input.KeyCode.Right);
+                Field.MoveDownBlocks = Input.Instance.IsKeyPress(Input.KeyCode.Down);
+                Field.FallenBlocks = Input.Instance.IsKeyTrigger(Input.KeyCode.Up);
 
                 Field.Step(delta);
 
-                MergeToScreen(Field.FieldBlocks, 6, 1, 8);
+                MergeToScreen(Field.FieldBlocks, 6, 1, FieldScreenOffsetY);
                 if (!Field.HasActiveBlock)
                 {
                     var blocks = Blocks.ReplaceBlock(NextBlocks, Defs.Blocks.EmptyBlock, Defs.Blocks.EmptyField);

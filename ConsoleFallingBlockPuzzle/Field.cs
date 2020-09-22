@@ -80,6 +80,26 @@ namespace ConsoleFallingBlockPuzzle
         /// <summary>
         /// 
         /// </summary>
+        public bool MoveLeftBlocks { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public bool MoveRightBlocks { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public bool MoveDownBlocks { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public bool FallenBlocks { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
         public Field(int width, int height)
         {
             Width = width;
@@ -198,6 +218,11 @@ namespace ConsoleFallingBlockPuzzle
                         return true;
                     }
 
+                    if (x + blockX < 0)
+                    {
+                        return true;
+                    }
+
                     if (FieldBlocks[y + blockY, x + blockX] != Defs.Blocks.EmptyField)
                     {
                         return true;
@@ -213,9 +238,6 @@ namespace ConsoleFallingBlockPuzzle
         public void Step(double deltaTime)
         {
             ElapsedTime += deltaTime;
-
-            if (ElapsedTime < 50) return;
-            ElapsedTime = 0;
 
             if (ActiveBlocks == null) return;
 
@@ -233,14 +255,59 @@ namespace ConsoleFallingBlockPuzzle
                 RotateBlocks = false;
             }
 
-            if (IsHitBlock(ActiveBlocks.Blocks, ActiveBlocks.X, ActiveBlocks.Y + 1))
+            if (MoveLeftBlocks)
             {
-                FixBlock(ActiveBlocks.Blocks, ActiveBlocks.X, ActiveBlocks.Y);
-                ActiveBlocks = null;
-                return;
+                if (!IsHitBlock(ActiveBlocks.Blocks, ActiveBlocks.X - 1, ActiveBlocks.Y))
+                {
+                    --ActiveBlocks.X;
+                }
+
+                MoveLeftBlocks = false;
             }
 
-            ++ActiveBlocks.Y;
+            if (MoveRightBlocks)
+            {
+                if (!IsHitBlock(ActiveBlocks.Blocks, ActiveBlocks.X + 1, ActiveBlocks.Y))
+                {
+                    ++ActiveBlocks.X;
+                }
+
+                MoveRightBlocks = false;
+            }
+
+            if (MoveDownBlocks)
+            {
+                if (!IsHitBlock(ActiveBlocks.Blocks, ActiveBlocks.X, ActiveBlocks.Y + 1))
+                {
+                    ++ActiveBlocks.Y;
+                }
+
+                MoveDownBlocks = false;
+            }
+
+            if (FallenBlocks)
+            {
+                while(!IsHitBlock(ActiveBlocks.Blocks, ActiveBlocks.X, ActiveBlocks.Y + 1))
+                {
+                    ++ActiveBlocks.Y;
+                }
+
+                FallenBlocks = false;
+            }
+
+            if (ElapsedTime > 500)
+            {
+                ElapsedTime = 0;
+
+                if (IsHitBlock(ActiveBlocks.Blocks, ActiveBlocks.X, ActiveBlocks.Y + 1))
+                {
+                    FixBlock(ActiveBlocks.Blocks, ActiveBlocks.X, ActiveBlocks.Y);
+                    ActiveBlocks = null;
+                    return;
+                }
+
+                ++ActiveBlocks.Y;
+            }
 
             FixBlock(ActiveBlocks.Blocks, ActiveBlocks.X, ActiveBlocks.Y);
         }

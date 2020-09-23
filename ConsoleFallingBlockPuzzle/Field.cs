@@ -235,6 +235,67 @@ namespace ConsoleFallingBlockPuzzle
         /// <summary>
         /// 
         /// </summary>
+        private int ClearLine()
+        {
+            int count = 0;
+
+            for (int y = 0; y < FieldBlocks.GetLength(0); ++y)
+            {
+                bool line = true;
+
+                for (int x = 0, max = FieldBlocks.GetLength(1); x < max; ++x)
+                {
+                    if (FieldBlocks[y, x] == Defs.Blocks.EmptyField)
+                    {
+                        line = false;
+                        break;
+                    }
+                }
+
+                if (line)
+                {
+                    ++count;
+
+                    for (int x = 0, max = FieldBlocks.GetLength(1); x < max; ++x)
+                    {
+                        FieldBlocks[y, x] = Defs.Blocks.EmptyField;
+                    }
+                }
+            }
+            return count;
+        }
+
+        private void CloseUpBlocks()
+        {
+            for (int y = FieldBlocks.GetLength(0); y >= 0; --y)
+            {
+                bool line = true;
+
+                for (int x = 0, max = FieldBlocks.GetLength(1); x < max; ++x)
+                {
+                    if (FieldBlocks[y, x] != Defs.Blocks.EmptyField)
+                    {
+                        line = false;
+                        break;
+                    }
+                }
+
+                if (line)
+                {
+                    for (int yy = y; yy >= 1; --yy)
+                    {
+                        for (int x = 0, max = FieldBlocks.GetLength(1); x < max; ++x)
+                        {
+                            FieldBlocks[yy, x] = FieldBlocks[yy - 1, x];
+                        }
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
         public void Step(double deltaTime)
         {
             ElapsedTime += deltaTime;
@@ -316,6 +377,13 @@ namespace ConsoleFallingBlockPuzzle
             if (inactiveBlocks)
             {
                 ActiveBlocks = null;
+            }
+
+            int lineCount = ClearLine();
+
+            if (lineCount > 0)
+            {
+                CloseUpBlocks();
             }
         }
     }

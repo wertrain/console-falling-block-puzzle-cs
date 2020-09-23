@@ -122,6 +122,22 @@ namespace ConsoleFallingBlockPuzzle
         /// <summary>
         /// 
         /// </summary>
+        /// <returns></returns>
+        public static Defs.Blocks[,] GetEmptyBlocks()
+        {
+            Defs.Blocks o = Defs.Blocks.EmptyBlock;
+
+            return new Defs.Blocks[,] {
+                        { o, o, o, o },
+                        { o, o, o, o },
+                        { o, o, o, o },
+                        { o, o, o, o },
+            };
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
         /// <param name="target"></param>
         /// <param name="src"></param>
         /// <param name="dest"></param>

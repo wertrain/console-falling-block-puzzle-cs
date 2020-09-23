@@ -26,7 +26,8 @@ namespace ConsoleFallingBlockPuzzle
             Field.SpawnBlock(blocks);
 
             NextBlocks = Blocks.GetRandomBlocks();
-            MergeToScreen(Blocks.GetRandomBlocks(), 1, 1);
+            MergeToScreen(NextBlocks, 1, 1);
+            MergeToScreen(Blocks.GetEmptyBlocks(), 1, 6);
             MergeToScreen(Field.FieldBlocks, 6, 1, FieldScreenOffsetY);
         }
 

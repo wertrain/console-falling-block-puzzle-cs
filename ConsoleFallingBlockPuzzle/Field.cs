@@ -285,31 +285,38 @@ namespace ConsoleFallingBlockPuzzle
                 MoveDownBlocks = false;
             }
 
+            bool inactiveBlocks = false;
+
             if (FallenBlocks)
             {
-                while(!IsHitBlock(ActiveBlocks.Blocks, ActiveBlocks.X, ActiveBlocks.Y + 1))
+                while (!IsHitBlock(ActiveBlocks.Blocks, ActiveBlocks.X, ActiveBlocks.Y + 1))
                 {
                     ++ActiveBlocks.Y;
                 }
+                inactiveBlocks = true;
 
                 FallenBlocks = false;
             }
-
-            if (ElapsedTime > 500)
+            else if (ElapsedTime > 500)
             {
                 ElapsedTime = 0;
 
-                if (IsHitBlock(ActiveBlocks.Blocks, ActiveBlocks.X, ActiveBlocks.Y + 1))
+                if (!IsHitBlock(ActiveBlocks.Blocks, ActiveBlocks.X, ActiveBlocks.Y + 1))
                 {
-                    FixBlock(ActiveBlocks.Blocks, ActiveBlocks.X, ActiveBlocks.Y);
-                    ActiveBlocks = null;
-                    return;
+                    ++ActiveBlocks.Y;
                 }
-
-                ++ActiveBlocks.Y;
+                else
+                {
+                    inactiveBlocks = true;
+                }
             }
 
             FixBlock(ActiveBlocks.Blocks, ActiveBlocks.X, ActiveBlocks.Y);
+
+            if (inactiveBlocks)
+            {
+                ActiveBlocks = null;
+            }
         }
     }
 }

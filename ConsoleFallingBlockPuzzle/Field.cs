@@ -265,9 +265,12 @@ namespace ConsoleFallingBlockPuzzle
             return count;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         private void CloseUpBlocks()
         {
-            for (int y = FieldBlocks.GetLength(0); y >= 0; --y)
+            for (int y = FieldBlocks.GetLength(0) - 1; y >= 0; --y)
             {
                 bool line = true;
 

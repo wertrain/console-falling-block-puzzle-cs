@@ -186,7 +186,7 @@ namespace ConsoleFallingBlockPuzzle
             {
                 for (int x = 0, max = copied.GetLength(1); x < max; ++x)
                 {
-                    copied[y, x] = target[copied.GetLength(1) - x - 1, y];
+                    copied[y, x] = target[x, copied.GetLength(0) - y - 1];
                 }
             }
             return copied;

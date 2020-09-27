@@ -80,6 +80,11 @@ namespace ConsoleFallingBlockPuzzle
         /// <summary>
         /// 
         /// </summary>
+        public bool ReverseRotateBlocks { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
         public bool MoveLeftBlocks { get; set; }
 
         /// <summary>
@@ -317,6 +322,18 @@ namespace ConsoleFallingBlockPuzzle
                 }
 
                 RotateBlocks = false;
+            }
+
+            if (ReverseRotateBlocks)
+            {
+                var rotateBlocks = Blocks.ReverseRotateBlock(ActiveBlocks.Blocks);
+
+                if (!IsHitBlock(rotateBlocks, ActiveBlocks.X, ActiveBlocks.Y))
+                {
+                    ActiveBlocks.Blocks = rotateBlocks;
+                }
+
+                ReverseRotateBlocks = false;
             }
 
             if (MoveLeftBlocks)

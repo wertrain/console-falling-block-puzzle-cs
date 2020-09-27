@@ -64,6 +64,7 @@ namespace ConsoleFallingBlockPuzzle
                 prevElapsed = currentElapsed;
 
                 Field.RotateBlocks = Input.Instance.IsKeyTrigger(Input.KeyCode.Z);
+                Field.ReverseRotateBlocks = Input.Instance.IsKeyTrigger(Input.KeyCode.X);
                 Field.MoveLeftBlocks = Input.Instance.IsKeyPress(Input.KeyCode.Left);
                 Field.MoveRightBlocks = Input.Instance.IsKeyPress(Input.KeyCode.Right);
                 Field.MoveDownBlocks = Input.Instance.IsKeyPress(Input.KeyCode.Down);

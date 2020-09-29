@@ -277,13 +277,13 @@ namespace ConsoleFallingBlockPuzzle
         {
             for (int y = FieldBlocks.GetLength(0) - 1; y >= 0; --y)
             {
-                bool line = false;
+                bool line = true;
 
                 for (int x = 0, max = FieldBlocks.GetLength(1); x < max; ++x)
                 {
-                    if (FieldBlocks[y, x] == Defs.Blocks.EmptyField)
+                    if (FieldBlocks[y, x] != Defs.Blocks.EmptyField)
                     {
-                        line = true;
+                        line = false;
                         break;
                     }
                 }

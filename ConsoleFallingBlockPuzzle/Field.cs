@@ -277,6 +277,25 @@ namespace ConsoleFallingBlockPuzzle
         {
             for (int y = FieldBlocks.GetLength(0) - 1; y >= 0; --y)
             {
+                bool exit = true;
+
+                for (int yy = y; yy >= 0; --yy)
+                {
+                    for (int x = 0, max = FieldBlocks.GetLength(1); x < max; ++x)
+                    {
+                        if (FieldBlocks[yy, x] != Defs.Blocks.EmptyField)
+                        {
+                            exit = false;
+                            break;
+                        }
+                    }
+                }
+
+                if (exit)
+                {
+                    return;
+                }
+
                 bool line = true;
 
                 for (int x = 0, max = FieldBlocks.GetLength(1); x < max; ++x)
@@ -297,6 +316,7 @@ namespace ConsoleFallingBlockPuzzle
                             FieldBlocks[yy, x] = FieldBlocks[yy - 1, x];
                         }
                     }
+                    ++y;
                 }
             }
         }

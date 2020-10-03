@@ -126,9 +126,15 @@ namespace ConsoleFallingBlockPuzzle
         /// 
         /// </summary>
         /// <param name="blocks"></param>
-        public void SpawnBlock(Defs.Blocks[,] blocks)
+        /// <returns></returns>
+        public bool SpawnBlock(Defs.Blocks[,] blocks)
         {
             int posY = 0, posX = 2;
+            if (!IsPlaceBlocks(posX, posY, blocks))
+            {
+                return false;
+            }
+
             for (int y = 0; y < blocks.GetLength(0); ++y)
             {
                 for (int x = 0, max = blocks.GetLength(1); x < max; ++x)
@@ -139,6 +145,29 @@ namespace ConsoleFallingBlockPuzzle
 
             ActiveBlocks = new BlocksObject(blocks, 2, 0);
             BlocksList.Add(blocks);
+            return true;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="blocks"></param>
+        /// <returns></returns>
+        private bool IsPlaceBlocks(int posX, int posY, Defs.Blocks[,] blocks)
+        {
+            for (int y = 0; y < blocks.GetLength(0); ++y)
+            {
+                for (int x = 0, max = blocks.GetLength(1); x < max; ++x)
+                {
+                    if (FieldBlocks[y + posY, x + posX] != Defs.Blocks.EmptyField)
+                    {
+                        return false;
+                    }
+                }
+            }
+            return true;
         }
 
         /// <summary>

@@ -201,6 +201,39 @@ namespace ConsoleFallingBlockPuzzle
         /// <summary>
         /// 
         /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="format"></param>
+        /// <param name="parameters"></param>
+        public static void DrawText(int x, int y, string format, params object[] parameters)
+        {
+            DrawText(x, y, ConsoleColor.White, format, parameters);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="color"></param>
+        /// <param name="format"></param>
+        /// <param name="parameters"></param>
+        public static void DrawText(int x, int y, ConsoleColor color, string format, params object[] parameters)
+        {
+            var defaultForegroundColor = Console.ForegroundColor;
+            Console.CursorLeft = x;
+            Console.CursorTop = y;
+
+            Console.ForegroundColor = color;
+            System.Console.Write(format, parameters);
+            Console.CursorLeft = 0;
+            Console.CursorTop = 0;
+            Console.ForegroundColor = defaultForegroundColor;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
         public static void Clear()
         {
             Console.Clear();

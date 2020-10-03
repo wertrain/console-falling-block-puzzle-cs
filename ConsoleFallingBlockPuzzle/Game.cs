@@ -14,7 +14,7 @@ namespace ConsoleFallingBlockPuzzle
         private Field Field { get; set; }
         private Defs.Blocks[,] NextBlocks;
 
-        public static int FieldScreenOffsetY { get; } = 2;
+        public static int FieldScreenOffsetY { get; } = 4;
 
         public Game()
         {
@@ -27,7 +27,6 @@ namespace ConsoleFallingBlockPuzzle
 
             NextBlocks = Blocks.GetRandomBlocks();
             MergeToScreen(NextBlocks, 1, 1);
-            MergeToScreen(Blocks.GetEmptyBlocks(), 1, 6);
             MergeToScreen(Field.FieldBlocks, 6, 1, FieldScreenOffsetY);
         }
 
@@ -76,19 +75,29 @@ namespace ConsoleFallingBlockPuzzle
                 if (!Field.HasActiveBlock)
                 {
                     var blocks = Blocks.ReplaceBlock(NextBlocks, Defs.Blocks.EmptyBlock, Defs.Blocks.EmptyField);
-                    Field.SpawnBlock(blocks);
-
-                    NextBlocks = Blocks.GetRandomBlocks();
-                    MergeToScreen(Blocks.GetRandomBlocks(), 1, 1);
+                    if (Field.SpawnBlock(blocks))
+                    {
+                        NextBlocks = Blocks.GetRandomBlocks();
+                        MergeToScreen(Blocks.GetRandomBlocks(), 1, 1);
+                    }
+                    else
+                    {
+                        break;
+                    }
                 }
                 Drawer.DrawDifference(Screen, PreviousScreen);
                 PreviousScreen = (Defs.Blocks[,])Screen.Clone();
+
+                int x = Screen.GetLength(1), y = 2;
+                Drawer.DrawText(x + 1, y++, "SCORE: {0}", 100);
 
                 System.Threading.Thread.Sleep(1000 / 10);
             }
             while (inputKey.Key != ConsoleKey.Q);
 
             stopwatch.Stop();
+
+            Drawer.Clear();
         }
     }
 }

@@ -14,6 +14,8 @@ namespace ConsoleFallingBlockPuzzle
         private Field Field { get; set; }
         private Defs.Blocks[,] NextBlocks;
 
+        private int Score { get; set; }
+
         public static int FieldScreenOffsetY { get; } = 4;
 
         public Game()
@@ -69,7 +71,8 @@ namespace ConsoleFallingBlockPuzzle
                 Field.MoveDownBlocks = Input.Instance.IsKeyPress(Input.KeyCode.Down);
                 Field.FallenBlocks = Input.Instance.IsKeyTrigger(Input.KeyCode.Up);
 
-                Field.Step(delta);
+                int clearLine = Field.Step(delta);
+                Score += clearLine * 100;
 
                 MergeToScreen(Field.FieldBlocks, 6, 1, FieldScreenOffsetY);
                 if (!Field.HasActiveBlock)
@@ -89,7 +92,7 @@ namespace ConsoleFallingBlockPuzzle
                 PreviousScreen = (Defs.Blocks[,])Screen.Clone();
 
                 int x = Screen.GetLength(1), y = 2;
-                Drawer.DrawText(x + 1, y++, "SCORE: {0}", 100);
+                Drawer.DrawText(x + 1, y++, "SCORE: {0}", Score);
 
                 System.Threading.Thread.Sleep(1000 / 10);
             }

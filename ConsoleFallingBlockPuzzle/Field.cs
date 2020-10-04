@@ -353,11 +353,13 @@ namespace ConsoleFallingBlockPuzzle
         /// <summary>
         /// 
         /// </summary>
-        public void Step(double deltaTime)
+        /// <param name="deltaTime"></param>
+        /// <returns></returns>
+        public int Step(double deltaTime)
         {
             ElapsedTime += deltaTime;
 
-            if (ActiveBlocks == null) return;
+            if (ActiveBlocks == null) return 0;
 
             ClearBlock(ActiveBlocks.Blocks, ActiveBlocks.X, ActiveBlocks.Y);
 
@@ -454,6 +456,8 @@ namespace ConsoleFallingBlockPuzzle
             {
                 CloseUpBlocks();
             }
+
+            return lineCount;
         }
     }
 }

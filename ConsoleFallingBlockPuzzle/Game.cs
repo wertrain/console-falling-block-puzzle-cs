@@ -24,9 +24,6 @@ namespace ConsoleFallingBlockPuzzle
             PreviousScreen = new Defs.Blocks[32, 32];
             Field = new Field(10, 26);
 
-            var blocks = Blocks.ReplaceBlock(Blocks.GetBlocks(Blocks.Types.I), Defs.Blocks.EmptyBlock, Defs.Blocks.EmptyField);
-            Field.SpawnBlock(blocks);
-
             NextBlocks = Blocks.GetRandomBlocks();
             MergeToScreen(NextBlocks, 1, 1);
             MergeToScreen(Field.FieldBlocks, 6, 1, FieldScreenOffsetY);
@@ -101,6 +98,9 @@ namespace ConsoleFallingBlockPuzzle
             stopwatch.Stop();
 
             Drawer.Clear();
+
+            Console.WriteLine("Your Score: {0}", Score);
+            Console.ReadLine();
         }
     }
 }

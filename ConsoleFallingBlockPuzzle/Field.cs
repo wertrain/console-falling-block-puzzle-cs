@@ -151,6 +151,21 @@ namespace ConsoleFallingBlockPuzzle
         /// <summary>
         /// 
         /// </summary>
+        /// <param name="blocks"></param>
+        public Defs.Blocks[,] SwapActiveBlocks(Defs.Blocks[,] blocks)
+        {
+            if (!HasActiveBlock) return null;
+
+            var prevBlocks = ActiveBlocks.Blocks;
+
+            ActiveBlocks = new BlocksObject(blocks, 2, 0);
+
+            return prevBlocks;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
         /// <param name="x"></param>
         /// <param name="y"></param>
         /// <param name="blocks"></param>

@@ -158,7 +158,16 @@ namespace ConsoleFallingBlockPuzzle
 
             var prevBlocks = ActiveBlocks.Blocks;
 
-            ActiveBlocks = new BlocksObject(blocks, 2, 0);
+            ClearBlock(ActiveBlocks.Blocks, ActiveBlocks.X, ActiveBlocks.Y);
+
+            if (blocks == null)
+            {
+                ActiveBlocks = null;
+            }
+            else
+            {
+                ActiveBlocks = new BlocksObject(blocks, 2, 0);
+            }
 
             return prevBlocks;
         }

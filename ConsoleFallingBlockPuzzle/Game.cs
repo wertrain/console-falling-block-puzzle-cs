@@ -13,6 +13,7 @@ namespace ConsoleFallingBlockPuzzle
 
         private Field Field { get; set; }
         private Defs.Blocks[,] NextBlocks;
+        private Defs.Blocks[,] HoldBlocks;
 
         private int Score { get; set; }
 
@@ -26,6 +27,8 @@ namespace ConsoleFallingBlockPuzzle
 
             NextBlocks = Blocks.GetRandomBlocks();
             MergeToScreen(NextBlocks, 1, 1);
+            HoldBlocks = null;
+            MergeToScreen(Blocks.ReplaceBlock(Blocks.GetEmptyBlocks(), Defs.Blocks.EmptyBlock, Defs.Blocks.EmptyField), 1, 6);
             MergeToScreen(Field.FieldBlocks, 6, 1, FieldScreenOffsetY);
         }
 
@@ -68,6 +71,17 @@ namespace ConsoleFallingBlockPuzzle
                 Field.MoveDownBlocks = Input.Instance.IsKeyPress(Input.KeyCode.Down);
                 Field.FallenBlocks = Input.Instance.IsKeyTrigger(Input.KeyCode.Up);
 
+                if (Input.Instance.IsKeyTrigger(Input.KeyCode.A))
+                {
+                    var swappedBlocks = Field.SwapActiveBlocks(HoldBlocks);
+
+                    if (swappedBlocks != null)
+                    {
+                        HoldBlocks = swappedBlocks;
+                        MergeToScreen(HoldBlocks, 1, 6);
+                    }
+                }
+
                 int clearLine = Field.Step(delta);
                 Score += clearLine * 100;
 
@@ -78,7 +92,7 @@ namespace ConsoleFallingBlockPuzzle
                     if (Field.SpawnBlock(blocks))
                     {
                         NextBlocks = Blocks.GetRandomBlocks();
-                        MergeToScreen(Blocks.GetRandomBlocks(), 1, 1);
+                        MergeToScreen(NextBlocks, 1, 1);
                     }
                     else
                     {

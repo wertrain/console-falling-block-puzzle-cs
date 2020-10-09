@@ -14,6 +14,7 @@ namespace ConsoleFallingBlockPuzzle
         private Field Field { get; set; }
         private Defs.Blocks[,] NextBlocks;
         private Defs.Blocks[,] HoldBlocks;
+        private List<Defs.Blocks[,]> RandomBlocksList;
 
         private int Score { get; set; }
 
@@ -25,7 +26,8 @@ namespace ConsoleFallingBlockPuzzle
             PreviousScreen = new Defs.Blocks[32, 32];
             Field = new Field(10, 26);
 
-            NextBlocks = Blocks.GetRandomBlocks();
+            RandomBlocksList = new List<Defs.Blocks[,]>();
+            NextBlocks = GetRandomBlocks();
             MergeToScreen(NextBlocks, 1, 1);
             HoldBlocks = null;
             MergeToScreen(Blocks.ReplaceBlock(Blocks.GetEmptyBlocks(), Defs.Blocks.EmptyBlock, Defs.Blocks.EmptyField), 1, 6);
@@ -46,6 +48,34 @@ namespace ConsoleFallingBlockPuzzle
                     Screen[y + posY - offsetY, x + posX] = target[y, x];
                 }
             }
+        }
+
+        /// <summary>
+        /// すべての種類がひとつずつ出現するようなブロックパターンを取得
+        /// </summary>
+        /// <returns></returns>
+        private Defs.Blocks[,] GetRandomBlocks()
+        {
+            if (RandomBlocksList.Count <= 0)
+            {
+                var random = new Random();
+
+                var blocksTable = new Blocks.Types[] {
+                    Blocks.Types.I, Blocks.Types.O, Blocks.Types.T,
+                    Blocks.Types.J, Blocks.Types.L, Blocks.Types.S,
+                    Blocks.Types.Z, Blocks.Types.V
+                };
+                blocksTable.OrderBy(i => Guid.NewGuid()).ToArray();
+
+                foreach(var type in blocksTable)
+                {
+                    RandomBlocksList.Add(Blocks.GetBlocks(type));
+                }
+            }
+
+            var next = RandomBlocksList[0];
+            RandomBlocksList.Remove(next);
+            return next;
         }
 
         public void Update()
@@ -91,7 +121,7 @@ namespace ConsoleFallingBlockPuzzle
                     var blocks = Blocks.ReplaceBlock(NextBlocks, Defs.Blocks.EmptyBlock, Defs.Blocks.EmptyField);
                     if (Field.SpawnBlock(blocks))
                     {
-                        NextBlocks = Blocks.GetRandomBlocks();
+                        NextBlocks = GetRandomBlocks();
                         MergeToScreen(NextBlocks, 1, 1);
                     }
                     else

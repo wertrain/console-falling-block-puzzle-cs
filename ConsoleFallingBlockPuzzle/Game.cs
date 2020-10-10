@@ -60,11 +60,7 @@ namespace ConsoleFallingBlockPuzzle
             {
                 var random = new Random();
 
-                var blocksTable = new Blocks.Types[] {
-                    Blocks.Types.I, Blocks.Types.O, Blocks.Types.T,
-                    Blocks.Types.J, Blocks.Types.L, Blocks.Types.S,
-                    Blocks.Types.Z, Blocks.Types.V
-                };
+                var blocksTable = Enum.GetValues(typeof(Blocks.Types)).Cast<Blocks.Types>().ToList();
                 blocksTable.OrderBy(i => Guid.NewGuid()).ToArray();
 
                 foreach(var type in blocksTable)
